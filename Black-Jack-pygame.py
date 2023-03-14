@@ -35,8 +35,10 @@ text = smallfont.render('Hit' , True , color)
 
 val=""
 kort=""
+kort2=""
 spelare = []
 x = -250
+hit=0
 
 while True:
 
@@ -52,7 +54,7 @@ while True:
             #if the mouse is clicked on the
             # button the game is terminated
             if width/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
-                val="h"
+                hit+=1
                 x+=250
 
     # Do logical updates here.
@@ -76,21 +78,28 @@ while True:
 
     window.blit(text , (width/2+50,height/2))
 
+    kortlek =  ["h1", "h2", "h3", "h4", "h5", "h6", "h7", "h8", "h9", "h10", "h11", "h12", "h13",
+				"c1", "c2", "c3", "c4", "c5", "c6", "c7", "c8", "c9", "c10", "c11", "c12", "c13",
+				"d1", "d2", "d3", "d4", "d5", "d6", "d7", "d8", "d9", "d10", "d11", "d12", "d13",
+				"s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10", "s11", "s12", "s13"]
 
-    for i in range(1):
-    	kortlek =  ["h1", "h2", "h3", "h4", "h5", "h6", "h7", "h8", "h9", "h10", "h11", "h12", "h13",
-					"c1", "c2", "c3", "c4", "c5", "c6", "c7", "c8", "c9", "c10", "c11", "c12", "c13",
-					"d1", "d2", "d3", "d4", "d5", "d6", "d7", "d8", "d9", "d10", "d11", "d12", "d13",
-					"s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10", "s11", "s12", "s13"]
 
+    while kort == "":
     	kort = random.choice(kortlek)
     	kortlek.remove(kort)
-    	spelare.append(kort)
     	kort = pygame.image.load(kortlek_map[kort]).convert()
 
+    while kort2 == "":
+    	kort2 = random.choice(kortlek)
+    	kortlek.remove(kort2)
+    	kort2 = pygame.image.load(kortlek_map[kort2]).convert()
 
-    if val == "h":
-    	window.blit(kort, [x, 0])
+
+    if hit == 1:
+    	window.blit(kort, [0, 0])
+    if hit == 2:
+    	window.blit(kort, [0, 0])
+    	window.blit(kort2, [250, 0])
 
 
     pygame.display.flip()  # Refresh on-screen display
