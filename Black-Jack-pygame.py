@@ -32,13 +32,25 @@ color_dark = (100,100,100)
 
 smallfont = pygame.font.SysFont('Corbel',35)
 text = smallfont.render('Hit' , True , color)
+text2 = smallfont.render('Stand' , True , color)
+text3 = smallfont.render('Double' , True , color)
 
 val=""
-kort=""
-kort2=""
+skort=""
+skort2=""
+skort3=""
+skort4=""
+skort5=""
 spelare = []
 x = -250
 hit=0
+stand=0
+double=0
+dkort=""
+dkort2=""
+dkort3=""
+dkort4=""
+dkort5=""
 
 while True:
 
@@ -53,9 +65,15 @@ while True:
               
             #if the mouse is clicked on the
             # button the game is terminated
-            if width/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
+            if width/2 <= mouse[0] <= width/2+140 and height-50 <= mouse[1] <= height-10:
                 hit+=1
                 x+=250
+
+            if width/3 <= mouse[0] <= width/3+140 and height-50 <= mouse[1] <= height-10:
+            	stand=1
+
+            if width/3*2 <= mouse[0] <= width/3*2+140 and height-50 <= mouse[1] <= height-10:
+            	double=1
 
     # Do logical updates here.
     # ...
@@ -70,13 +88,32 @@ while True:
 
     mouse = pygame.mouse.get_pos()
 
-    if width/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
-        pygame.draw.rect(window,color_light,[width/2,height/2,140,40])
+    if width/2 <= mouse[0] <= width/2+140 and height-50 <= mouse[1] <= height-10:
+        pygame.draw.rect(window,color_light,[width/2,height-50,140,40])
           
     else:
-        pygame.draw.rect(window,color_dark,[width/2,height/2,140,40])
+        pygame.draw.rect(window,color_dark,[width/2,height-50,140,40])
 
-    window.blit(text , (width/2+50,height/2))
+    window.blit(text , (width/2+50,height-50))
+
+
+    if width/3 <= mouse[0] <= width/3+140 and height-50 <= mouse[1] <= height-10:
+        pygame.draw.rect(window,color_light,[width/3,height-50,140,40])
+          
+    else:
+        pygame.draw.rect(window,color_dark,[width/3,height-50,140,40])
+
+    window.blit(text2 , (width/3+30,height-50))
+
+
+    if width/3*2 <= mouse[0] <= width/3*2+140 and height-50 <= mouse[1] <= height-10:
+        pygame.draw.rect(window,color_light,[width/3*2,height-50,140,40])
+          
+    else:
+        pygame.draw.rect(window,color_dark,[width/3*2,height-50,140,40])
+
+    window.blit(text3 , (width/3*2+20,height-50))
+
 
     kortlek =  ["h1", "h2", "h3", "h4", "h5", "h6", "h7", "h8", "h9", "h10", "h11", "h12", "h13",
 				"c1", "c2", "c3", "c4", "c5", "c6", "c7", "c8", "c9", "c10", "c11", "c12", "c13",
@@ -84,22 +121,108 @@ while True:
 				"s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10", "s11", "s12", "s13"]
 
 
-    while kort == "":
-    	kort = random.choice(kortlek)
-    	kortlek.remove(kort)
-    	kort = pygame.image.load(kortlek_map[kort]).convert()
+    while skort == "":
+    	skort = random.choice(kortlek)
+    	kortlek.remove(skort)
+    	skort = pygame.image.load(kortlek_map[skort]).convert()
 
-    while kort2 == "":
-    	kort2 = random.choice(kortlek)
-    	kortlek.remove(kort2)
-    	kort2 = pygame.image.load(kortlek_map[kort2]).convert()
+    while skort2 == "":
+    	skort2 = random.choice(kortlek)
+    	kortlek.remove(skort2)
+    	skort2 = pygame.image.load(kortlek_map[skort2]).convert()
+
+    while skort3 == "":
+    	skort3 = random.choice(kortlek)
+    	kortlek.remove(skort3)
+    	skort3 = pygame.image.load(kortlek_map[skort3]).convert()
+
+    while skort4 == "":
+    	skort4 = random.choice(kortlek)
+    	kortlek.remove(skort4)
+    	skort4 = pygame.image.load(kortlek_map[skort4]).convert()
+
+    while skort5 == "":
+    	skort5 = random.choice(kortlek)
+    	kortlek.remove(skort5)
+    	skort5 = pygame.image.load(kortlek_map[skort5]).convert()
 
 
+    if hit == 0:
+    	window.blit(skort, [0, 0])
+    	window.blit(skort2, [250, 0])
     if hit == 1:
-    	window.blit(kort, [0, 0])
+    	window.blit(skort, [0, 0])
+    	window.blit(skort2, [250, 0])
+    	window.blit(skort3, [500, 0])
     if hit == 2:
-    	window.blit(kort, [0, 0])
-    	window.blit(kort2, [250, 0])
+    	window.blit(skort, [0, 0])
+    	window.blit(skort2, [250, 0])
+    	window.blit(skort3, [500, 0])
+    	window.blit(skort4, [750, 0])
+    if hit == 3:
+    	window.blit(skort, [0, 0])
+    	window.blit(skort2, [250, 0])
+    	window.blit(skort3, [500, 0])
+    	window.blit(skort4, [750, 0])
+    	window.blit(skort5, [1000, 0])
+
+
+    while dkort == "":
+    	dkort = random.choice(kortlek)
+    	kortlek.remove(dkort)
+    	dkort = pygame.image.load(kortlek_map[dkort]).convert()
+
+    while dkort2 == "":
+    	dkort2 = random.choice(kortlek)
+    	kortlek.remove(dkort2)
+    	dkort2 = pygame.image.load(kortlek_map[dkort2]).convert()
+
+    while dkort3 == "":
+    	dkort3 = random.choice(kortlek)
+    	kortlek.remove(dkort3)
+    	dkort3 = pygame.image.load(kortlek_map[dkort3]).convert()
+
+    while dkort4 == "":
+    	dkort4 = random.choice(kortlek)
+    	kortlek.remove(dkort4)
+    	dkort4 = pygame.image.load(kortlek_map[dkort4]).convert()
+
+    while dkort5 == "":
+    	dkort5 = random.choice(kortlek)
+    	kortlek.remove(dkort5)
+    	dkort5 = pygame.image.load(kortlek_map[dkort5]).convert()
+
+    if stand == 0:
+    	window.blit(dkort, [0, 250])
+    	window.blit(blank, [250, 250])
+
+    if stand == 1:
+    	window.blit(dkort, [0, 250])
+    	window.blit(dkort2, [250, 250])
+    	stand=2
+    	pygame.display.update()
+    	time.sleep(1)
+    if stand == 2:
+    	window.blit(dkort, [0, 250])
+    	window.blit(dkort2, [250, 250])
+    	window.blit(dkort3, [500, 250])
+    	stand=3
+    	pygame.display.update()
+    	time.sleep(1)
+    if stand == 3:
+    	window.blit(dkort, [0, 250])
+    	window.blit(dkort2, [250, 250])
+    	window.blit(dkort3, [500, 250])
+    	window.blit(dkort4, [750, 250])
+    	stand=4
+    	pygame.display.update()
+    	time.sleep(1)
+    if stand == 4:
+    	window.blit(dkort, [0, 250])
+    	window.blit(dkort2, [250, 250])
+    	window.blit(dkort3, [500, 250])
+    	window.blit(dkort4, [750, 250])
+    	window.blit(dkort5, [1000, 250])
 
 
     pygame.display.flip()  # Refresh on-screen display
