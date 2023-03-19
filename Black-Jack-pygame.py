@@ -596,9 +596,10 @@ while True:
                     "s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10", "s11", "s12", "s13"]
 
     if spelare > 20:
-        if reset1 == 0:
-            stand=1
-            reset1=1
+        if stand == 0:
+            if reset1 == 0:
+                stand=1
+                reset1=1
 
     if reset == 1:
         if reset3 == 0:
