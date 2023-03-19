@@ -11,7 +11,7 @@ pygame.init()
 width = 1920
 height = 1080
 window = pygame.display.set_mode((width,height))
-bg_img = pygame.image.load('BlackJack-table3.png').convert()
+bg_img = pygame.image.load('BlackJack-table4.png').convert()
 bg_img = pygame.transform.scale(bg_img,(width,height))
 
 # kort = pygame.image.load(kortlek_map["c2"]).convert()
@@ -35,9 +35,17 @@ color_dark = (100,100,100)
 
 smallfont = pygame.font.SysFont('Corbel',35)
 bigfont = pygame.font.SysFont("arial",65)
+textfont = pygame.font.SysFont("arial",40)
 text = smallfont.render('Hit' , True , color)
 text2 = smallfont.render('Stand' , True , color)
 text3 = smallfont.render('Double' , True , color)
+text4 = smallfont.render('Next' , True , color)
+text5 = smallfont.render('Bid +10' , True , color)
+text55 = smallfont.render('Lock Bid' , True , color)
+text6 = bigfont.render('Pengar:' , True , color)
+text7 = bigfont.render('Bid:' , True , color)
+text8 = textfont.render('Spelare:' , True , color)
+text9 = textfont.render('Dealer:' , True , color)
 
 
 skort=""
@@ -45,31 +53,45 @@ skort2=""
 skort3=""
 skort4=""
 skort5=""
+skort6=""
 dkort=""
 dkort2=""
 dkort3=""
 dkort4=""
 dkort5=""
+dkort6=""
+
 spelare = 0
 dealer = 0
+
 sy=100
 dy=450
 sx=100
 dx=100
-hit=0
-stand=0
-double=0
+
+hit=-1
+stand=-1
+
+reset=0
+reset1=0
+reset2=0
+reset3=0
 
 skortD=0
 skort2D=0
 skort3D=0
 skort4D=0
 skort5D=0
+skort6D=0
 dkortD=0
 dkort2D=0
 dkort3D=0
 dkort4D=0
 dkort5D=0
+dkort6D=0
+
+pengar=100
+bid=0
 
 
 kortlek =  ["h1", "h2", "h3", "h4", "h5", "h6", "h7", "h8", "h9", "h10", "h11", "h12", "h13",
@@ -87,51 +109,98 @@ while True:
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
-                print(skort)
-                print(skort2)
-                print(skort3)
-                print(skort4)
-                print(skort5)
-                print(dkort)
-                print(dkort2)
-                print(dkort3)
-                print(dkort4)
-                print(dkort5)
-                print(kortlek, len(kortlek))
+                print("End", kortlek, len(kortlek))
                 pygame.quit()
                 raise SystemExit
 
         if event.type == pygame.MOUSEBUTTONDOWN:
               
-            if width/2 <= mouse[0] <= width/2+140 and height-45 <= mouse[1] <= height-5:
-                if hit < 3:
-                    if stand == 0:
-                        hit+=1
+            if width/2 <= mouse[0] <= width/2+140 and height-45 <= mouse[1] <= height-5: # Hit
+                if bid > 1:
+                    if hit < 4:
+                        if stand == 0:
+                            hit+=1
 
-            if width/3 <= mouse[0] <= width/3+140 and height-45 <= mouse[1] <= height-5:
-            	if stand == 0:
-                    stand=1
+            if width/3 <= mouse[0] <= width/3+140 and height-45 <= mouse[1] <= height-5: # Stand
+                if bid > 1:
+                	if stand == 0:
+                            stand=1
 
-            if width/3*2 <= mouse[0] <= width/3*2+140 and height-45 <= mouse[1] <= height-5:
-            	if double == 0:
-                    double=1
+            if width/3*2 <= mouse[0] <= width/3*2+140 and height-45 <= mouse[1] <= height-5: # Double
+                if bid > 1:
+                    if hit == 0:
+                    	if stand == 0:
+                                pengar-=bid
+                                bid=bid*2
+                                hit=1
+                                stand=1
 
-    # Do logical updates here.
-    # ...
+            if reset == 1:
+                if width/2 <= mouse[0] <= width/2+140 and height-245 <= mouse[1] <= height-205: # Next
+                    spelare = 0
+                    dealer = 0
+                    hit=-1
+                    stand=-1
+                    reset=0
+                    reset1=0
+                    skort=""
+                    skort2=""
+                    skort3=""
+                    skort4=""
+                    skort5=""
+                    skort6=""
+                    dkort=""
+                    dkort2=""
+                    dkort3=""
+                    dkort4=""
+                    dkort5=""
+                    dkort6=""
+                    skortD=0
+                    skort2D=0
+                    skort3D=0
+                    skort4D=0
+                    skort5D=0
+                    skort6D=0
+                    dkortD=0
+                    dkort2D=0
+                    dkort3D=0
+                    dkort4D=0
+                    dkort5D=0
+                    dkort6D=0
+                    bid=0
+                    reset2=0
+                    reset3=0
+                    print("Reset", kortlek, len(kortlek))
+
+            if hit == -1:
+                if stand == -1:
+                    if width/2-100 <= mouse[0] <= width/2-100+140 and height/2 <= mouse[1] <= height/2+40: # Bid +10
+                        if reset2 < 10:
+                            bid+=10
+                            pengar-=10
+                            reset2+=1
+                    if width/2+100 <= mouse[0] <= width/2+100+140 and height/2 <= mouse[1] <= height/2+40: # Lock Bid
+                        if bid > 1:
+                            hit=0
+                            stand=0
+
 
     window.blit(bg_img, [0, 0])
-    # window.blit(kort, [0, 0])
-    # window.blit(blank, [250, 0])
-	# screen.fill("purple")  # Fill the display with a solid color
 
-    # Render the graphics here.
-    # ...
-
-    window.blit(bluechip, [1632, 132])
-    spoints = bigfont.render(str(spelare), True, color)
-    window.blit(spoints, [1700, 200])
+    if stand >= 0:
+        window.blit(bluechip, [1632, 132])
+        spoints = bigfont.render(str(spelare), True, color)
+        window.blit(spoints, [1700, 200])
     # dpoints = bigfont.render(str(dealer), True, color)
     # window.blit(dpoints, [1700, 600])
+    window.blit(text6, [200, 750])
+    window.blit(text7, [500, 750])
+    pengarD = bigfont.render(str(pengar), True, color)
+    window.blit(pengarD, [200, 850])
+    bidD = bigfont.render(str(bid), True, color)
+    window.blit(bidD, [500, 850])
+    window.blit(text8, [100, 50])
+    window.blit(text9, [100, 400])
 
     mouse = pygame.mouse.get_pos()
 
@@ -162,6 +231,35 @@ while True:
     window.blit(text3 , (width/3*2+20,height-45))
 
 
+    if reset == 1:
+        if width/2 <= mouse[0] <= width/2+140 and height-245 <= mouse[1] <= height-205:
+            pygame.draw.rect(window,color_light,[width/2,height-245,140,40])
+              
+        else:
+            pygame.draw.rect(window,color_dark,[width/2,height-245,140,40])
+
+        window.blit(text4 , (width/2+40,height-245))
+
+    if hit == -1:
+        if stand == -1:
+            if width/2-100 <= mouse[0] <= width/2-100+140 and height/2 <= mouse[1] <= height/2+40:
+                pygame.draw.rect(window,color_light,[width/2-100,height/2,140,40])
+                  
+            else:
+                pygame.draw.rect(window,color_dark,[width/2-100,height/2,140,40])
+
+            window.blit(text5 , (width/2-100+20,height/2))
+
+
+            if width/2+100 <= mouse[0] <= width/2+100+140 and height/2 <= mouse[1] <= height/2+40:
+                pygame.draw.rect(window,color_light,[width/2+100,height/2,140,40])
+                  
+            else:
+                pygame.draw.rect(window,color_dark,[width/2+100,height/2,140,40])
+
+            window.blit(text55 , (width/2+100+10,height/2))
+
+
     while skort == "":
     	skort = random.choice(kortlek)
     	kortlek.remove(skort)
@@ -186,6 +284,11 @@ while True:
     	skort5 = random.choice(kortlek)
     	kortlek.remove(skort5)
     	skort5_ = pygame.image.load(kortlek_map[skort5]).convert_alpha()
+
+    while skort6 == "":
+        skort6 = random.choice(kortlek)
+        kortlek.remove(skort6)
+        skort6_ = pygame.image.load(kortlek_map[skort6]).convert_alpha()
 
 
     if hit == 0:
@@ -265,6 +368,28 @@ while True:
             if skort5[1:] == "13":
                 spelare += -3
             skort5D=1
+    if hit == 4:
+        sx=100
+        window.blit(skort_, [sx, sy])
+        sx+=250
+        window.blit(skort2_, [sx, sy])
+        sx+=250
+        window.blit(skort3_, [sx, sy])
+        sx+=250
+        window.blit(skort4_, [sx, sy])
+        sx+=250
+        window.blit(skort5_, [sx, sy])
+        sx+=250
+        window.blit(skort6_, [sx, sy])
+        if skort6D == 0:
+            spelare += int(skort6[1:])
+            if skort6[1:] == "11":
+                spelare += -1
+            if skort6[1:] == "12":
+                spelare += -2
+            if skort6[1:] == "13":
+                spelare += -3
+            skort6D=1
 
 
     while dkort == "":
@@ -291,6 +416,11 @@ while True:
     	dkort5 = random.choice(kortlek)
     	kortlek.remove(dkort5)
     	dkort5_ = pygame.image.load(kortlek_map[dkort5]).convert_alpha()
+
+    while dkort6 == "":
+        dkort6 = random.choice(kortlek)
+        kortlek.remove(dkort6)
+        dkort6_ = pygame.image.load(kortlek_map[dkort6]).convert_alpha()
 
     if stand == 0:
         dx=100
@@ -328,8 +458,15 @@ while True:
         window.blit(redchip, [1632, 532])
         window.blit(dpoints, [1700, 600])
         pygame.display.update()
-        time.sleep(1)
-        stand=2
+        if  dealer > spelare:
+            stand=1
+            reset=1
+        elif dealer > 16:
+            stand=1
+            reset=1
+        else:
+            time.sleep(1)
+            stand=2
     if stand == 2:
         pygame.display.update()
         dx=100
@@ -351,8 +488,15 @@ while True:
         window.blit(redchip, [1632, 532])
         window.blit(dpoints, [1700, 600])
         pygame.display.update()
-        time.sleep(1)
-        stand=3
+        if  dealer > spelare:
+            stand=2
+            reset=1
+        elif dealer > 16:
+            stand=2
+            reset=1
+        else:
+            time.sleep(1)
+            stand=3
     if stand == 3:
         dx=100
         window.blit(dkort_, [dx, dy])
@@ -375,8 +519,15 @@ while True:
         window.blit(redchip, [1632, 532])
         window.blit(dpoints, [1700, 600])
         pygame.display.update()
-        time.sleep(1)
-        stand=4
+        if  dealer > spelare:
+            stand=3
+            reset=1
+        elif dealer > 16:
+            stand=3
+            reset=1
+        else:
+            time.sleep(1)
+            stand=4
     if stand == 4:
         dx=100
         window.blit(dkort_, [dx, dy])
@@ -400,7 +551,78 @@ while True:
         dpoints = bigfont.render(str(dealer), True, color)
         window.blit(redchip, [1632, 532])
         window.blit(dpoints, [1700, 600])
+        pygame.display.update()
+        if  dealer > spelare:
+            stand=4
+            reset=1
+        elif dealer > 16:
+            stand=4
+            reset=1
+        else:
+            time.sleep(1)
+            stand=5
+    if stand == 5:
+        dx=100
+        window.blit(dkort_, [dx, dy])
+        dx+=250
+        window.blit(dkort2_, [dx, dy])
+        dx+=250
+        window.blit(dkort3_, [dx, dy])
+        dx+=250
+        window.blit(dkort4_, [dx, dy])
+        dx+=250
+        window.blit(dkort5_, [dx, dy])
+        dx+=250
+        window.blit(dkort6_, [dx, dy])
+        if dkort6D == 0:
+            dealer += int(dkort6[1:])
+            if dkort6[1:] == "11":
+                dealer += -1
+            if dkort6[1:] == "12":
+                dealer += -2
+            if dkort6[1:] == "13":
+                dealer += -3
+            dkort6D=1
+        dpoints = bigfont.render(str(dealer), True, color)
+        window.blit(redchip, [1632, 532])
+        window.blit(dpoints, [1700, 600])
+        reset=1
 
 
-    pygame.display.flip()  # Refresh on-screen display
-    clock.tick(60)         # wait until next frame (at 60 FPS)
+    if len(kortlek) < 13:
+        kortlek =  ["h1", "h2", "h3", "h4", "h5", "h6", "h7", "h8", "h9", "h10", "h11", "h12", "h13",
+                    "c1", "c2", "c3", "c4", "c5", "c6", "c7", "c8", "c9", "c10", "c11", "c12", "c13",
+                    "d1", "d2", "d3", "d4", "d5", "d6", "d7", "d8", "d9", "d10", "d11", "d12", "d13",
+                    "s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10", "s11", "s12", "s13"]
+
+    if spelare > 20:
+        if reset1 == 0:
+            stand=1
+            reset1=1
+
+    if reset == 1:
+        if reset3 == 0:
+            # if spelare == 21 and dealer != 21:
+            #     if hit == 0:
+            #         if (skort == "h1") or (skort == "c1") or (skort == "d1") or (skort == "s1") or (skort2 == "h1") or (skort2 == "c1") or (skort2 == "d1") or (skort2 == "s1"):
+            #             pengar+=bid
+            #             bid=bid*2
+            #             pengar+=bid
+            #             reset3=1
+            if spelare > 21:
+                reset3=1
+            elif (spelare == dealer):
+                pengar+=bid
+                reset3=1
+            elif (dealer > 21):
+                bid=bid*2
+                pengar+=bid
+                reset3=1
+            elif (spelare > dealer) and spelare <= 21:
+                bid=bid*2
+                pengar+=bid
+                reset3=1
+            bid=0
+
+    pygame.display.flip()
+    clock.tick(30)
