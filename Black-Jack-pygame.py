@@ -11,7 +11,7 @@ pygame.init()
 width = 1920
 height = 1080
 window = pygame.display.set_mode((width,height))
-bg_img = pygame.image.load('BlackJack-table4.png').convert()
+bg_img = pygame.image.load('BlackJack-table5.png').convert()
 bg_img = pygame.transform.scale(bg_img,(width,height))
 
 # kort = pygame.image.load(kortlek_map["c2"]).convert()
@@ -42,9 +42,10 @@ text3 = smallfont.render('Double' , True , color)
 text4 = smallfont.render('Next' , True , color)
 text5 = smallfont.render('Bid +10' , True , color)
 text55 = smallfont.render('Lock Bid' , True , color)
-text6 = bigfont.render('Pengar:' , True , color)
+text555 = smallfont.render('Bid -10' , True , color)
+text6 = bigfont.render('Money:' , True , color)
 text7 = bigfont.render('Bid:' , True , color)
-text8 = textfont.render('Spelare:' , True , color)
+text8 = textfont.render('Player:' , True , color)
 text9 = textfont.render('Dealer:' , True , color)
 
 
@@ -174,15 +175,20 @@ while True:
 
             if hit == -1:
                 if stand == -1:
-                    if width/2-100 <= mouse[0] <= width/2-100+140 and height/2 <= mouse[1] <= height/2+40: # Bid +10
-                        if reset2 < 10:
-                            bid+=10
-                            pengar-=10
-                            reset2+=1
-                    if width/2+100 <= mouse[0] <= width/2+100+140 and height/2 <= mouse[1] <= height/2+40: # Lock Bid
+                    if width/3*2 <= mouse[0] <= width/3*2+140 and height-245 <= mouse[1] <= height-205: # Bid +10
+                        if pengar > 0:
+                            if bid < 100:
+                                bid+=10
+                                pengar-=10
+                    if width/2 <= mouse[0] <= width/2+140 and height-245 <= mouse[1] <= height-205: # Lock Bid
                         if bid > 1:
                             hit=0
                             stand=0
+                    if width/3 <= mouse[0] <= width/3+140 and height-245 <= mouse[1] <= height-205: # Bid -10
+                        if bid > 0:
+                            bid-=10
+                            pengar+=10
+
 
 
     window.blit(bg_img, [0, 0])
@@ -193,14 +199,15 @@ while True:
         window.blit(spoints, [1700, 200])
     # dpoints = bigfont.render(str(dealer), True, color)
     # window.blit(dpoints, [1700, 600])
-    window.blit(text6, [200, 750])
-    window.blit(text7, [500, 750])
+    window.blit(text6, [100, 750])
+    window.blit(text7, [400, 750])
     pengarD = bigfont.render(str(pengar), True, color)
-    window.blit(pengarD, [200, 850])
+    window.blit(pengarD, [100, 850])
     bidD = bigfont.render(str(bid), True, color)
-    window.blit(bidD, [500, 850])
-    window.blit(text8, [100, 50])
-    window.blit(text9, [100, 400])
+    window.blit(bidD, [400, 850])
+    if hit >= 0:
+        window.blit(text8, [100, 50])
+        window.blit(text9, [100, 400])
 
     mouse = pygame.mouse.get_pos()
 
@@ -241,34 +248,43 @@ while True:
         window.blit(text4 , (width/2+40,height-245))
 
     if hit == -1:
-        if stand == -1:
-            if width/2-100 <= mouse[0] <= width/2-100+140 and height/2 <= mouse[1] <= height/2+40:
-                pygame.draw.rect(window,color_light,[width/2-100,height/2,140,40])
+        if stand == -1: 
+            if width/3*2 <= mouse[0] <= width/3*2+140 and height-245 <= mouse[1] <= height-205: # +10
+                pygame.draw.rect(window,color_light,[width/3*2,height-245,140,40])
                   
             else:
-                pygame.draw.rect(window,color_dark,[width/2-100,height/2,140,40])
+                pygame.draw.rect(window,color_dark,[width/3*2,height-245,140,40])
 
-            window.blit(text5 , (width/2-100+20,height/2))
+            window.blit(text5 , (width/3*2+20,height-245))
 
 
-            if width/2+100 <= mouse[0] <= width/2+100+140 and height/2 <= mouse[1] <= height/2+40:
-                pygame.draw.rect(window,color_light,[width/2+100,height/2,140,40])
+            if width/2 <= mouse[0] <= width/2+140 and height-245 <= mouse[1] <= height-205: # Lock
+                pygame.draw.rect(window,color_light,[width/2,height-245,140,40])
                   
             else:
-                pygame.draw.rect(window,color_dark,[width/2+100,height/2,140,40])
+                pygame.draw.rect(window,color_dark,[width/2,height-245,140,40])
 
-            window.blit(text55 , (width/2+100+10,height/2))
+            window.blit(text55 , (width/2+10,height-245))
+
+
+            if width/3 <= mouse[0] <= width/3+140 and height-245 <= mouse[1] <= height-205: # -10
+                pygame.draw.rect(window,color_light,[width/3,height-245,140,40])
+                  
+            else:
+                pygame.draw.rect(window,color_dark,[width/3,height-245,140,40])
+
+            window.blit(text555 , (width/3+20,height-245))
 
 
     while skort == "":
-    	skort = random.choice(kortlek)
-    	kortlek.remove(skort)
-    	skort_ = pygame.image.load(kortlek_map[skort]).convert_alpha()
+        skort = random.choice(kortlek)
+        kortlek.remove(skort)
+        skort_ = pygame.image.load(kortlek_map[skort]).convert_alpha()
 
     while skort2 == "":
-    	skort2 = random.choice(kortlek)
-    	kortlek.remove(skort2)
-    	skort2_ = pygame.image.load(kortlek_map[skort2]).convert_alpha()
+        skort2 = random.choice(kortlek)
+        kortlek.remove(skort2)
+        skort2_ = pygame.image.load(kortlek_map[skort2]).convert_alpha()
 
     while skort3 == "":
     	skort3 = random.choice(kortlek)
@@ -302,6 +318,8 @@ while True:
                 spelare += -2
             if skort[1:] == "13":
                 spelare += -3
+            if skort[1:] == "1":
+                spelare += 10
             skortD=1
         sx+=250
         window.blit(skort2_, [sx, sy])
@@ -313,6 +331,9 @@ while True:
                 spelare += -2
             if skort2[1:] == "13":
                 spelare += -3
+            if skort2[1:] == "1":
+                if spelare < 12:
+                    spelare += 10
             skort2D=1
     if hit == 1:
         sx=100
@@ -329,6 +350,9 @@ while True:
                 spelare += -2
             if skort3[1:] == "13":
                 spelare += -3
+            if skort3[1:] == "1":
+                if spelare < 12:
+                    spelare += 10
             skort3D=1
     if hit == 2:
         sx=100
@@ -347,6 +371,9 @@ while True:
                 spelare += -2
             if skort4[1:] == "13":
                 spelare += -3
+            if skort4[1:] == "1":
+                if spelare < 12:
+                    spelare += 10
             skort4D=1
     if hit == 3:
         sx=100
@@ -367,6 +394,9 @@ while True:
                 spelare += -2
             if skort5[1:] == "13":
                 spelare += -3
+            if skort5[1:] == "1":
+                if spelare < 12:
+                    spelare += 10
             skort5D=1
     if hit == 4:
         sx=100
@@ -389,6 +419,9 @@ while True:
                 spelare += -2
             if skort6[1:] == "13":
                 spelare += -3
+            if skort6[1:] == "1":
+                if spelare < 12:
+                    spelare += 10
             skort6D=1
 
 
@@ -433,6 +466,8 @@ while True:
                 dealer += -2
             if dkort[1:] == "13":
                 dealer += -3
+            if dkort[1:] == "1":
+                dealer += 10
             dkortD=1
         dx+=250
         window.blit(blank, [dx, dy])
@@ -453,6 +488,9 @@ while True:
                 dealer += -2
             if dkort2[1:] == "13":
                 dealer += -3
+            if dkort2[1:] == "1":
+                if dealer < 12:
+                    dealer += 10
             dkort2D=1
         dpoints = bigfont.render(str(dealer), True, color)
         window.blit(redchip, [1632, 532])
@@ -483,6 +521,9 @@ while True:
                 dealer += -2
             if dkort3[1:] == "13":
                 dealer += -3
+            if dkort3[1:] == "1":
+                if dealer < 12:
+                    dealer += 10
             dkort3D=1
         dpoints = bigfont.render(str(dealer), True, color)
         window.blit(redchip, [1632, 532])
@@ -514,6 +555,9 @@ while True:
                 dealer += -2
             if dkort4[1:] == "13":
                 dealer += -3
+            if dkort4[1:] == "1":
+                if dealer < 12:
+                    dealer += 10
             dkort4D=1
         dpoints = bigfont.render(str(dealer), True, color)
         window.blit(redchip, [1632, 532])
@@ -547,6 +591,9 @@ while True:
                 dealer += -2
             if dkort5[1:] == "13":
                 dealer += -3
+            if dkort5[1:] == "1":
+                if dealer < 12:
+                    dealer += 10
             dkort5D=1
         dpoints = bigfont.render(str(dealer), True, color)
         window.blit(redchip, [1632, 532])
@@ -582,6 +629,9 @@ while True:
                 dealer += -2
             if dkort6[1:] == "13":
                 dealer += -3
+            if dkort6[1:] == "1":
+                if dealer < 12:
+                    dealer += 10
             dkort6D=1
         dpoints = bigfont.render(str(dealer), True, color)
         window.blit(redchip, [1632, 532])
@@ -603,14 +653,14 @@ while True:
 
     if reset == 1:
         if reset3 == 0:
-            # if spelare == 21 and dealer != 21:
-            #     if hit == 0:
-            #         if (skort == "h1") or (skort == "c1") or (skort == "d1") or (skort == "s1") or (skort2 == "h1") or (skort2 == "c1") or (skort2 == "d1") or (skort2 == "s1"):
-            #             pengar+=bid
-            #             bid=bid*2
-            #             pengar+=bid
-            #             reset3=1
-            if spelare > 21:
+            if spelare == 21 and dealer != 21:
+                if hit == 0:
+                    if (skort[1:] == "1") or (skort2[1:] == "1"):
+                        pengar+=bid
+                        bid=bid*2
+                        pengar+=bid
+                        reset3=1
+            elif spelare > 21:
                 reset3=1
             elif (spelare == dealer):
                 pengar+=bid
