@@ -26,16 +26,14 @@ pygame.display.set_caption("Black Jack")
 clock = pygame.time.Clock()
 
 
-# white color
 color = (255,255,255)
-# light shade of the button
 color_light = (170,170,170)
-# dark shade of the button
 color_dark = (100,100,100)
 
 smallfont = pygame.font.SysFont('Corbel',35)
 bigfont = pygame.font.SysFont("arial",65)
 textfont = pygame.font.SysFont("arial",40)
+
 text = smallfont.render('Hit' , True , color)
 text2 = smallfont.render('Stand' , True , color)
 text3 = smallfont.render('Double' , True , color)
@@ -102,7 +100,6 @@ kortlek =  ["h1", "h2", "h3", "h4", "h5", "h6", "h7", "h8", "h9", "h10", "h11", 
 
 while True:
 
-    # Process player inputs.
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -110,7 +107,7 @@ while True:
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
-                print("End", kortlek, len(kortlek))
+                # print("End", kortlek, len(kortlek))
                 pygame.quit()
                 raise SystemExit
 
@@ -171,7 +168,7 @@ while True:
                     bid=0
                     reset2=0
                     reset3=0
-                    print("Reset", kortlek, len(kortlek))
+                    # print("Reset", kortlek, len(kortlek))
 
             if hit == -1:
                 if stand == -1:
@@ -194,9 +191,9 @@ while True:
     window.blit(bg_img, [0, 0])
 
     if stand >= 0:
-        window.blit(bluechip, [1632, 132])
+        window.blit(bluechip, [1632, 125])
         spoints = bigfont.render(str(spelare), True, color)
-        window.blit(spoints, [1700, 200])
+        window.blit(spoints, [1700, 193])
     # dpoints = bigfont.render(str(dealer), True, color)
     # window.blit(dpoints, [1700, 600])
     window.blit(text6, [100, 750])
@@ -472,8 +469,8 @@ while True:
         dx+=250
         window.blit(blank, [dx, dy])
         dpoints = bigfont.render(str(dealer), True, color)
-        window.blit(redchip, [1632, 532])
-        window.blit(dpoints, [1700, 600])
+        window.blit(redchip, [1632, 475])
+        window.blit(dpoints, [1700, 543])
 
     if stand == 1:
         dx=100
@@ -493,8 +490,8 @@ while True:
                     dealer += 10
             dkort2D=1
         dpoints = bigfont.render(str(dealer), True, color)
-        window.blit(redchip, [1632, 532])
-        window.blit(dpoints, [1700, 600])
+        window.blit(redchip, [1632, 475])
+        window.blit(dpoints, [1700, 543])
         pygame.display.update()
         if  dealer > spelare:
             stand=1
@@ -526,8 +523,8 @@ while True:
                     dealer += 10
             dkort3D=1
         dpoints = bigfont.render(str(dealer), True, color)
-        window.blit(redchip, [1632, 532])
-        window.blit(dpoints, [1700, 600])
+        window.blit(redchip, [1632, 475])
+        window.blit(dpoints, [1700, 543])
         pygame.display.update()
         if  dealer > spelare:
             stand=2
@@ -560,8 +557,8 @@ while True:
                     dealer += 10
             dkort4D=1
         dpoints = bigfont.render(str(dealer), True, color)
-        window.blit(redchip, [1632, 532])
-        window.blit(dpoints, [1700, 600])
+        window.blit(redchip, [1632, 475])
+        window.blit(dpoints, [1700, 543])
         pygame.display.update()
         if  dealer > spelare:
             stand=3
@@ -596,8 +593,8 @@ while True:
                     dealer += 10
             dkort5D=1
         dpoints = bigfont.render(str(dealer), True, color)
-        window.blit(redchip, [1632, 532])
-        window.blit(dpoints, [1700, 600])
+        window.blit(redchip, [1632, 475])
+        window.blit(dpoints, [1700, 543])
         pygame.display.update()
         if  dealer > spelare:
             stand=4
@@ -634,8 +631,8 @@ while True:
                     dealer += 10
             dkort6D=1
         dpoints = bigfont.render(str(dealer), True, color)
-        window.blit(redchip, [1632, 532])
-        window.blit(dpoints, [1700, 600])
+        window.blit(redchip, [1632, 475])
+        window.blit(dpoints, [1700, 543])
         reset=1
 
 
