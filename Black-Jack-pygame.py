@@ -92,6 +92,8 @@ dkort6D=0
 pengar=100
 bid=0
 
+runda=1
+
 
 kortlek =  ["h1", "h2", "h3", "h4", "h5", "h6", "h7", "h8", "h9", "h10", "h11", "h12", "h13",
             "c1", "c2", "c3", "c4", "c5", "c6", "c7", "c8", "c9", "c10", "c11", "c12", "c13",
@@ -100,6 +102,7 @@ kortlek =  ["h1", "h2", "h3", "h4", "h5", "h6", "h7", "h8", "h9", "h10", "h11", 
 
 while True:
 
+    # Run loop
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -111,6 +114,7 @@ while True:
                 pygame.quit()
                 raise SystemExit
 
+        # knappar
         if event.type == pygame.MOUSEBUTTONDOWN:
               
             if width/2 <= mouse[0] <= width/2+140 and height-45 <= mouse[1] <= height-5: # Hit
@@ -166,6 +170,7 @@ while True:
                     dkort5D=0
                     dkort6D=0
                     bid=0
+                    runda+=1
                     reset2=0
                     reset3=0
                     # print("Reset", kortlek, len(kortlek))
@@ -190,6 +195,7 @@ while True:
 
     window.blit(bg_img, [0, 0])
 
+    # All text
     if stand >= 0:
         window.blit(bluechip, [1632, 125])
         spoints = bigfont.render(str(spelare), True, color)
@@ -205,71 +211,63 @@ while True:
     if hit >= 0:
         window.blit(text8, [100, 50])
         window.blit(text9, [100, 400])
+    rundortext = textfont.render("Runda:", True, color)
+    window.blit(rundortext, [1700, 75])
+    rundor = textfont.render(str(runda), True, color)
+    window.blit(rundor, [1815, 75])
 
+
+    # Knappar
     mouse = pygame.mouse.get_pos()
 
-    if width/2 <= mouse[0] <= width/2+140 and height-45 <= mouse[1] <= height-5:
+    if width/2 <= mouse[0] <= width/2+140 and height-45 <= mouse[1] <= height-5: # Hit
         pygame.draw.rect(window,color_light,[width/2,height-45,140,40])
-          
     else:
         pygame.draw.rect(window,color_dark,[width/2,height-45,140,40])
-
     window.blit(text , (width/2+50,height-45))
 
 
-    if width/3 <= mouse[0] <= width/3+140 and height-45 <= mouse[1] <= height-5:
-        pygame.draw.rect(window,color_light,[width/3,height-45,140,40])
-          
+    if width/3 <= mouse[0] <= width/3+140 and height-45 <= mouse[1] <= height-5: # Stand
+        pygame.draw.rect(window,color_light,[width/3,height-45,140,40]) 
     else:
         pygame.draw.rect(window,color_dark,[width/3,height-45,140,40])
-
     window.blit(text2 , (width/3+30,height-45))
 
 
-    if width/3*2 <= mouse[0] <= width/3*2+140 and height-45 <= mouse[1] <= height-5:
+    if width/3*2 <= mouse[0] <= width/3*2+140 and height-45 <= mouse[1] <= height-5: # Double
         pygame.draw.rect(window,color_light,[width/3*2,height-45,140,40])
-          
     else:
         pygame.draw.rect(window,color_dark,[width/3*2,height-45,140,40])
-
     window.blit(text3 , (width/3*2+20,height-45))
 
 
     if reset == 1:
-        if width/2 <= mouse[0] <= width/2+140 and height-245 <= mouse[1] <= height-205:
-            pygame.draw.rect(window,color_light,[width/2,height-245,140,40])
-              
+        if width/2 <= mouse[0] <= width/2+140 and height-245 <= mouse[1] <= height-205: # Next
+            pygame.draw.rect(window,color_light,[width/2,height-245,140,40]) 
         else:
             pygame.draw.rect(window,color_dark,[width/2,height-245,140,40])
-
         window.blit(text4 , (width/2+40,height-245))
 
     if hit == -1:
         if stand == -1: 
             if width/3*2 <= mouse[0] <= width/3*2+140 and height-245 <= mouse[1] <= height-205: # +10
                 pygame.draw.rect(window,color_light,[width/3*2,height-245,140,40])
-                  
             else:
                 pygame.draw.rect(window,color_dark,[width/3*2,height-245,140,40])
-
             window.blit(text5 , (width/3*2+20,height-245))
 
 
             if width/2 <= mouse[0] <= width/2+140 and height-245 <= mouse[1] <= height-205: # Lock
                 pygame.draw.rect(window,color_light,[width/2,height-245,140,40])
-                  
             else:
                 pygame.draw.rect(window,color_dark,[width/2,height-245,140,40])
-
             window.blit(text55 , (width/2+10,height-245))
 
 
             if width/3 <= mouse[0] <= width/3+140 and height-245 <= mouse[1] <= height-205: # -10
                 pygame.draw.rect(window,color_light,[width/3,height-245,140,40])
-                  
             else:
                 pygame.draw.rect(window,color_dark,[width/3,height-245,140,40])
-
             window.blit(text555 , (width/3+20,height-245))
 
 
@@ -636,18 +634,21 @@ while True:
         reset=1
 
 
+    # Skapar ny kortlek om kortleken är tom
     if len(kortlek) < 13:
         kortlek =  ["h1", "h2", "h3", "h4", "h5", "h6", "h7", "h8", "h9", "h10", "h11", "h12", "h13",
                     "c1", "c2", "c3", "c4", "c5", "c6", "c7", "c8", "c9", "c10", "c11", "c12", "c13",
                     "d1", "d2", "d3", "d4", "d5", "d6", "d7", "d8", "d9", "d10", "d11", "d12", "d13",
                     "s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10", "s11", "s12", "s13"]
 
+    # Avslutar spelet om spelaren är tjock
     if spelare > 20:
         if stand == 0:
             if reset1 == 0:
                 stand=1
                 reset1=1
 
+    # Vinstodds
     if reset == 1:
         if reset3 == 0:
             if spelare == 21 and dealer != 21:
@@ -657,6 +658,10 @@ while True:
                         bid=bid*2
                         pengar+=bid
                         reset3=1
+                else:
+                    bid=bid*2
+                    pengar+=bid
+                    reset3=1
             elif spelare > 21:
                 reset3=1
             elif (spelare == dealer):
