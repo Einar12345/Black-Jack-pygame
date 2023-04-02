@@ -141,7 +141,6 @@ while True:
                     reset4=0
                     spelare_lista=[]
                     dealer_lista=[]
-                    # print("Reset", kortlek, len(kortlek))
 
             if hit == -1:
                 if stand == -1:
@@ -339,18 +338,18 @@ while True:
     # Vinstodds
     if reset == 1:
         if reset3 == 0:
-            # if spelare == 21 and dealer != 21:
-            #     if hit == 0:
-            #         if (skort[1:] == "1") or (skort2[1:] == "1"):
-            #             pengar+=bid
-            #             bid=bid*2
-            #             pengar+=bid
-            #             reset3=1
-            #     else:
-            #         bid=bid*2
-            #         pengar+=bid
-            #         reset3=1
-            if spelare > 21:
+            if spelare == 21 and dealer != 21:
+                if len(spelare_lista) == 2:
+                    if (spelare_lista[0][1:] == "1") or (spelare_lista[1][1:] == "1"):
+                        pengar+=bid
+                        bid=bid*2
+                        pengar+=bid
+                        reset3=1
+                else:
+                    bid=bid*2
+                    pengar+=bid
+                    reset3=1
+            elif spelare > 21:
                 reset3=1
             elif (spelare == dealer):
                 pengar+=bid
