@@ -21,6 +21,8 @@ redchip = pygame.transform.scale(redchip, (200, 200))
 bluechip = pygame.image.load('bluechip.png').convert_alpha()
 bluechip = pygame.transform.scale(bluechip, (200, 200)) 
 
+pygame_icon = pygame.image.load('redchip.png')
+pygame.display.set_icon(pygame_icon)
 pygame.display.set_caption("Black Jack")
 
 clock = pygame.time.Clock()
@@ -85,7 +87,6 @@ while True:
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
-                # print("End", kortlek, len(kortlek))
                 pygame.quit()
                 raise SystemExit
 
