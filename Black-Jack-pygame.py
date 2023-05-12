@@ -6,15 +6,14 @@ from kortlek import *
 
 pygame.init()
 
-# width = 1299
-# height = 711
+# bakgrund
 width = 1920
 height = 1080
 window = pygame.display.set_mode((width,height))
 bg_img = pygame.image.load('BlackJack-table5.png').convert()
 bg_img = pygame.transform.scale(bg_img,(width,height))
 
-# kort = pygame.image.load(kortlek_map["c2"]).convert()
+# Laddar in några bilder
 blank = pygame.image.load(kortlek_map["blank"]).convert_alpha()
 redchip = pygame.image.load('redchip.png').convert_alpha()
 redchip = pygame.transform.scale(redchip, (200, 200)) 
@@ -27,17 +26,20 @@ pygame.display.set_caption("Black Jack")
 
 clock = pygame.time.Clock()
 
+# Färger
 black = (0,0,0)
 white = (255,255,255)
 color_light = (170,170,170)
 color_dark = (100,100,100)
 bg_color = (211, 211, 211)
 
+# Font
 smallfont = pygame.font.SysFont('Corbel',35)
 bigfont = pygame.font.SysFont("arial",65)
 textfont = pygame.font.SysFont("arial",40)
 font1 = pygame.font.SysFont("arial",20)
 
+# Laddar in all text
 text = smallfont.render('Hit' , True , white)
 text2 = smallfont.render('Stand' , True , white)
 text3 = smallfont.render('Double' , True , white)
@@ -55,36 +57,11 @@ text12 = font1.render(' Made by: Einar' , True , black)
 text13 = smallfont.render('Rules' , True , white)
 
 
-spelare = 0
-spelare_lista = []
-dealer = 0
-dealer_lista = []
-
-sy=100
-dy=450
-
-hit=-1
-stand=-1
-
-reset=0
-reset1=0
-reset2=0
-reset3=0
-reset4=0
-
-pengar=100
-bid=0
-
-runda=1
-
-ess = 0
+sy=100 # Y koordinaten för spelaren kort
+dy=450 # Y koordinaten för dealerns kort
 
 blackjack = 0
 
-kortlek =  ["h1", "h2", "h3", "h4", "h5", "h6", "h7", "h8", "h9", "h10", "h11", "h12", "h13",
-            "c1", "c2", "c3", "c4", "c5", "c6", "c7", "c8", "c9", "c10", "c11", "c12", "c13",
-            "d1", "d2", "d3", "d4", "d5", "d6", "d7", "d8", "d9", "d10", "d11", "d12", "d13",
-            "s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10", "s11", "s12", "s13"] * 8
 
 while True:
 
@@ -94,6 +71,7 @@ while True:
             pygame.quit()
             raise SystemExit
 
+        # Stänger av spelet om man trycker escape
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 pygame.quit()
@@ -104,6 +82,27 @@ while True:
 
             if width/2-70 <= mouse[0] <= width/2-70+140 and height-400 <= mouse[1] <= height-360: # Start
                 blackjack = 1
+                spelare = 0
+                spelare_lista = []
+                dealer = 0
+                dealer_lista = []
+                hit=-1
+                stand=-1
+                reset=0
+                reset1=0
+                reset2=0
+                reset3=0
+                reset4=0
+                pengar=100
+                bid=0
+                runda=1
+                ess = 0
+                ess2 = 0
+                kortlek =  ["h1", "h2", "h3", "h4", "h5", "h6", "h7", "h8", "h9", "h10", "h11", "h12", "h13",
+                            "c1", "c2", "c3", "c4", "c5", "c6", "c7", "c8", "c9", "c10", "c11", "c12", "c13",
+                            "d1", "d2", "d3", "d4", "d5", "d6", "d7", "d8", "d9", "d10", "d11", "d12", "d13",
+                            "s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10", "s11", "s12", "s13"] * 8
+
                   
             if blackjack == 1:
 
@@ -111,7 +110,6 @@ while True:
                     if bid > 1:
                         if hit < 4:
                             if stand == 0:
-                                # hit+=1
                                 kort = random.choice(kortlek)
                                 kortlek.remove(kort)
                                 spelare_lista.append(kort)
@@ -129,7 +127,6 @@ while True:
                 if width/3 <= mouse[0] <= width/3+140 and height-45 <= mouse[1] <= height-5: # Stand
                     if bid > 1:
                     	if stand == 0:
-                                dealer_lista.remove(blank)
                                 stand=1
 
                 if width/3*2 <= mouse[0] <= width/3*2+140 and height-45 <= mouse[1] <= height-5: # Double
@@ -138,25 +135,41 @@ while True:
                         	if stand == 0:
                                     pengar-=bid
                                     bid=bid*2
-                                    hit=1
+                                    kort = random.choice(kortlek)
+                                    kortlek.remove(kort)
+                                    spelare_lista.append(kort)
+                                    spelare += int(kort[1:])
+                                    if kort[1:] == "11":
+                                        spelare += -1
+                                    if kort[1:] == "12":
+                                        spelare += -2
+                                    if kort[1:] == "13":
+                                        spelare += -3
+                                    if kort[1:] == "1":
+                                        if spelare < 12:
+                                            spelare += 10
                                     stand=1
 
                 if reset == 1:
                     if width/2 <= mouse[0] <= width/2+140 and height-245 <= mouse[1] <= height-205: # Next
-                        spelare = 0
-                        dealer = 0
-                        hit=-1
-                        stand=-1
-                        bid=0
-                        runda+=1
-                        reset=0
-                        reset1=0
-                        reset2=0
-                        reset3=0
-                        reset4=0
-                        spelare_lista=[]
-                        dealer_lista=[]
-                        ess = 0
+                        if pengar > 0:
+                            spelare = 0
+                            dealer = 0
+                            hit=-1
+                            stand=-1
+                            bid=0
+                            runda+=1
+                            reset=0
+                            reset1=0
+                            reset2=0
+                            reset3=0
+                            reset4=0
+                            spelare_lista=[]
+                            dealer_lista=[]
+                            ess = 0
+                            ess2 = 0
+                        else:
+                            blackjack = 0
 
                 if hit == -1:
                     if stand == -1:
@@ -176,7 +189,7 @@ while True:
 
 
 
-    # Bakgrund
+    # Visar bakgrund
     window.blit(bg_img, [0, 0])
 
     mouse = pygame.mouse.get_pos()
@@ -184,9 +197,9 @@ while True:
     if blackjack == 0:
 
         # Start meny
+
         pygame.draw.rect(window,bg_color,[500,300,920,480])
 
-        # Start normal balckjack
         if width/2-70 <= mouse[0] <= width/2-70+140 and height-400 <= mouse[1] <= height-360: # Start
             pygame.draw.rect(window,color_light,[width/2-70,height-400,140,40]) 
         else:
@@ -291,7 +304,7 @@ while True:
                 window.blit(text555 , (width/3+20,height-245))
 
 
-        # Spelare startkort
+        # Spelarens 2 startkort
         if reset2 == 0:
             for startkort in range(2):
                 kort = random.choice(kortlek)
@@ -341,7 +354,6 @@ while True:
                 if kort2[1:] == "1":
                     if dealer < 12:
                         dealer += 10
-                dealer_lista.append(blank)
                 reset4=1
             kort2_ = pygame.image.load(kortlek_map[kort2]).convert_alpha()
             window.blit(kort2_, [100, dy])
@@ -369,10 +381,20 @@ while True:
                 kort_load2 = pygame.image.load(kortlek_map[dealer_lista[index]]).convert_alpha()
                 window.blit(kort_load2, [100 + 250*index, dy])
 
-        if  dealer > spelare:
-            reset=1
-        elif dealer > 16:
-            reset=1
+                # Gör att ess är värt 1 om handen är över 21
+                if dealer > 21:
+                    if dealer_lista[index][1:] == "1":
+                        if ess2 > 0:
+                            dealer += -10
+                            ess2 += -1
+
+
+        # Avslutar spelat när dealern har tagigt sina kort
+        if (stand == 1) or (reset1 == 1):
+            if dealer > spelare:
+                reset=1
+            elif dealer > 16:
+                reset=1
 
         # Skapar ny kortlek om kortleken är tom
         if len(kortlek) < 13:
@@ -385,7 +407,6 @@ while True:
         if spelare > 20:
             if stand == 0:
                 if reset1 == 0:
-                    dealer_lista.remove(blank)
                     stand=1
                     reset1=1
 
@@ -417,6 +438,7 @@ while True:
                     pengar+=bid
                     reset3=1
                 bid=0
+
 
     pygame.display.flip()
     clock.tick(30)
