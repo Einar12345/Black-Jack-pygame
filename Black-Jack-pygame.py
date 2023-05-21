@@ -51,10 +51,11 @@ text6 = bigfont.render('Money:' , True , white)
 text7 = bigfont.render('Bid:' , True , white)
 text8 = textfont.render('Player:' , True , white)
 text9 = textfont.render('Dealer:' , True , white)
-text10 = smallfont.render('Start' , True , white)
+text10 = smallfont.render('Classic' , True , white)
 text11 = bigfont.render('BLACKJACK' , True , black)
 text12 = font1.render(' Made by: Einar' , True , black)
 text13 = smallfont.render('Rules' , True , white)
+text14 = smallfont.render('Push 22' , True , white)
 
 
 sy=100 # Y koordinaten för spelaren kort
@@ -80,7 +81,7 @@ while True:
         # knappar
         if event.type == pygame.MOUSEBUTTONDOWN:
 
-            if width/2-70 <= mouse[0] <= width/2-70+140 and height-400 <= mouse[1] <= height-360: # Start
+            if width/2-70 <= mouse[0] <= width/2-70+140 and height-400 <= mouse[1] <= height-360: # Classic
                 blackjack = 1
                 spelare = 0
                 spelare_lista = []
@@ -200,17 +201,17 @@ while True:
 
         pygame.draw.rect(window,bg_color,[500,300,920,480])
 
-        if width/2-70 <= mouse[0] <= width/2-70+140 and height-400 <= mouse[1] <= height-360: # Start
+        if width/2-70 <= mouse[0] <= width/2-70+140 and height-400 <= mouse[1] <= height-360: # Classic
             pygame.draw.rect(window,color_light,[width/2-70,height-400,140,40]) 
         else:
             pygame.draw.rect(window,color_dark,[width/2-70,height-400,140,40])
-        window.blit(text10 , (width/2-70+35,height-400))
+        window.blit(text10 , (width/2-70+22,height-400))
 
-        if width/2-70+300 <= mouse[0] <= width/2-70+300+140 and height-400 <= mouse[1] <= height-360: # 
+        if width/2-70+300 <= mouse[0] <= width/2-70+300+140 and height-400 <= mouse[1] <= height-360: # Push 22
             pygame.draw.rect(window,color_light,[width/2-70+300,height-400,140,40]) 
         else:
             pygame.draw.rect(window,color_dark,[width/2-70+300,height-400,140,40])
-
+        window.blit(text14 , (width/2-70+300+17,height-400))
 
         if width/2-70-300 <= mouse[0] <= width/2-70-300+140 and height-400 <= mouse[1] <= height-360: # Rules
             pygame.draw.rect(window,color_light,[width/2-70-300,height-400,140,40]) 
@@ -218,7 +219,7 @@ while True:
             pygame.draw.rect(window,color_dark,[width/2-70-300,height-400,140,40])
         window.blit(text13 , (width/2-70-300+35,height-400))
 
-        window.blit(text11 , (width/2-155,height-600)) # BLACKJACK
+        window.blit(text11 , (width/2-180,height-600)) # BLACKJACK
         window.blit(text12 , (500,750)) # Made by
 
 
@@ -247,7 +248,7 @@ while True:
 
         # Visa antal rundor
         rundortext = textfont.render("Runda:", True, white)
-        window.blit(rundortext, [1700, 75])
+        window.blit(rundortext, [1680, 75])
         rundor = textfont.render(str(runda), True, white)
         window.blit(rundor, [1815, 75])
 
